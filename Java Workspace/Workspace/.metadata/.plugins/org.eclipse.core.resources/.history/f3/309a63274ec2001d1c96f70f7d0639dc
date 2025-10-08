@@ -1,0 +1,37 @@
+package xml; 
+ 
+import java.io.File; 
+import javax.xml.parsers.DocumentBuilder; 
+import javax.xml.parsers.DocumentBuilderFactory; 
+import org.w3c.dom.Document; 
+import org.w3c.dom.Element; 
+import org.w3c.dom.Node; 
+import org.w3c.dom.NodeList; 
+ 
+public class ReadXMLFile{ 
+    public static void main(String[] args) { 
+        try { 
+            File file = new File("C:\\Users\\rprakas7\\OneDrive - Capgemini\\Workspace\\XML\\src\\xml\\ReadXMLFile.java"); 
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance(); 
+            DocumentBuilder db = dbf.newDocumentBuilder(); 
+            Document doc = db.parse(file); 
+            doc.getDocumentElement().normalize(); 
+            NodeList nodeList = doc.getElementsByTagName("student"); 
+            for (int i = 0; i < nodeList.getLength(); i++) { 
+                Node node = nodeList.item(i); 
+                if (node.getNodeType() == Node.ELEMENT_NODE) { 
+                    Element element = (Element) node; 
+                    String studentid = element.getAttribute("id"); 
+                    String firstname = element.getElementsByTagName("first name").item(0).getTextContent(); 
+                    String lastname = element.getElementsByTagName("last name").item(0).getTextContent(); 
+                    String subject = element.getElementsByTagName("subject").item(0).getTextContent(); 
+                    String marks = element.getElementsByTagName("marks").item(0).getTextContent();
+                    System.out.println("studentid " + studentid + ": " + firstname + " - " + lastname + " - " + subject +" - " +marks ); 
+                } 
+            } 
+        } catch (Exception e) { 
+            System.out.println("Cant Run"); 
+            System.out.println(e); 
+        } 
+    } 
+}

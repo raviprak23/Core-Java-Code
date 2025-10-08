@@ -1,0 +1,22 @@
+package com.example.prakash1;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+//import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Configuration;
+
+//@SpringBootApplication
+
+
+@Configuration
+@EnableAutoConfiguration(exclude=(DataSourceAutoConfiguration.class))
+
+
+public class Prakash1Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Prakash1Application.class, args);
+	}
+
+}

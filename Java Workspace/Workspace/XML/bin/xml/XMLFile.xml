@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class>
+	<student>
+		<id>101</id>
+		<firstname>Munna</firstname>
+		<lastname>Kumar</lastname>
+		<subject>Math</subject>
+		<marks>63</marks>
+	</student>
+	<student>
+		<id>102</id>
+		<firstname>Chatur</firstname>
+		<lastname>Kumar</lastname>
+		<subject>Chemistry</subject>
+		<marks>80</marks>
+	</student>
+	<student>
+		<id>103</id>
+		<firstname>Ravi</firstname>
+		<lastname>Prakash</lastname>
+		<subject>English</subject>
+		<marks>90</marks>
+	</student>
+	<student>
+		<id>104</id>
+		<firstname>Sumanth</firstname>
+		<lastname>Singh</lastname>
+		<subject>Physics</subject>
+		<marks>36</marks>
+	</student>
+</class>

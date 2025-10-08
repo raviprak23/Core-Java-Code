@@ -1,0 +1,27 @@
+package Exception;
+
+import java.io.IOException;
+
+class Sumanth {
+	// public void abc() {
+	// public void abc() throws IOException {
+	public void abc() throws Exception {
+		System.out.println("Inside class Sumanth");
+	}
+}
+
+class Gulshan extends Sumanth {
+	@Override
+	// public void abc() throws NullPointerException {
+	public void abc() throws IOException {
+
+		System.out.println("Inside class gulshan");
+	}
+}
+
+public class Exceptionhandlinginheritance {
+	public static void main(String args[]) throws IOException {
+		Gulshan g = new Gulshan();
+		g.abc();
+	}
+}

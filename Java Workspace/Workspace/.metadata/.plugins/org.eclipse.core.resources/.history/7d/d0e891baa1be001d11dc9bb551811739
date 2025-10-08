@@ -1,0 +1,38 @@
+package Jdbc_project;
+
+public class TableDetail {
+	String columnName;
+	String columnDatatype;
+	String columnConstraint;
+
+	public TableDetail(String columnName, String columnDatatype, String columnConstraint) {
+		this.columnName = columnName;
+		this.columnDatatype = columnDatatype;
+		this.columnConstraint = columnConstraint;
+	}
+
+	public String getColumnName() {
+		return columnName;
+	}
+
+	public void setColumnName(String columnName) {
+		this.columnName = columnName;
+	}
+
+	public String getColumnDatatype() {
+		return columnDatatype;
+	}
+
+	public void setColumnDatatype(String columnDatatype) {
+		this.columnDatatype = columnDatatype;
+	}
+
+	public String getColumnConstraint() {
+		return columnConstraint;
+	}
+
+	public void setColumnConstraint(String columnConstraint) {
+		this.columnConstraint = columnConstraint;
+	}
+
+}

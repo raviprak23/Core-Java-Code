@@ -1,0 +1,24 @@
+package Jdbc_project;
+
+import java.util.Scanner;
+
+public class validation {
+	Scanner scanner = new Scanner(System.in);
+
+	public void IntValid(Scanner input) {
+		String value = scanner.nextLine();
+		while (!value.matches("[0-9]*")) {
+			System.out.println("Enter the valid input!!");
+			input.nextLine();
+		}
+		//return  Integerparse.int
+	}
+
+	public String Valid(Scanner input) {
+		String value = scanner.nextLine();
+		while (!value.matches("[A-Za-z]*")) {
+			System.out.println("Enter the valid input!!!");
+			input.nextLine();
+		}
+	}
+}

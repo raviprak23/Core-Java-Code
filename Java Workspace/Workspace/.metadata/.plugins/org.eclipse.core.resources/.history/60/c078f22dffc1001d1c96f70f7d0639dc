@@ -1,0 +1,125 @@
+package Jdbc_project; 
+ 
+import java.sql.*; 
+import java.util.Scanner; 
+ 
+public class CapgChoice { 
+ static int choice = 0; 
+ static Scanner input = new Scanner(System.in); 
+ static Connection conn = null; 
+ static Statement stmt = null; 
+ static Validate validate = new Validate(); 
+ 
+ public static void setConn(Connection conn) { 
+  CapgChoice.conn = conn; 
+ } 
+ 
+ public static void setStmt(Statement stmt) { 
+  CapgChoice.stmt = stmt; 
+ } 
+  
+ //Execution starts here 
+ public static void main(String args[]) throws SQLException { 
+  while (true) { 
+   System.out.println("Enter operation to be performed\n1=Connect to Exisiting Database, 2=Create Database, 3=Create Table\n4=Insert Data, 5=Read Table, 6=Display Tables\n7=Update Table, 8=Delete Data, 9=Drop Table, 10=Exit"); 
+   while (!input.hasNextInt()) { 
+    System.out.println("Enter the valid choice"); 
+    input.nextLine(); 
+   } 
+ 
+   choice = input.nextInt(); 
+   input.nextLine(); 
+ 
+   switch (choice) { 
+ 
+    case 1: // connects to existing DB 
+     DbConnection dbConnection = new DbConnection(); 
+     dbConnection.listExistingDB(); 
+     System.out.println("Please select the database you want to connect, from the above list"); 
+     String name = validate.getValidData(); 
+     dbConnection.connectToDb(name); 
+     break; 
+  
+    case 2: // Creating new database 
+     DbConnection createNewDb = new DbConnection(); 
+     createNewDb.createDb(); 
+     break; 
+  
+    case 3: // Creating table by calling create method 
+     CreateTable create = new CreateTable(conn, stmt); 
+     create.create(); 
+     break; 
+  
+    case 4: // Inserting elements by calling insert method 
+     try { 
+      InsertData insert = new InsertData(conn, stmt); 
+      insert.insert(); 
+  
+     } catch (Exception e) { 
+      e.printStackTrace(); 
+      System.err.println(e.getClass().getName() + ": " + e.getMessage()); 
+     } 
+     break; 
+  
+    case 5: // Retrieving all the elements by calling retrieve method 
+     try { 
+      RetrieveData retrieve = new RetrieveData(conn, stmt); 
+      retrieve.retrieveDetails(); 
+  
+     } catch (Exception e) { 
+      e.printStackTrace(); 
+      System.err.println(e.getClass().getName() + ": " + e.getMessage()); 
+     } 
+     break; 
+  
+    case 6: // Displaying tables in database by calling display method 
+     try { 
+      DisplayTable display = new DisplayTable(stmt,conn); 
+      display.display(); 
+  
+     } catch (Exception e) { 
+      e.printStackTrace(); 
+      System.err.println(e.getClass().getName() + ": " + e.getMessage()); 
+     } 
+     break; 
+  
+    case 7: // Updating element by calling update method 
+     try { 
+      UpdateData update = new UpdateData(conn, stmt); 
+      update.update(); 
+  
+     } catch (Exception e) { 
+      e.printStackTrace(); 
+      System.err.println(e.getClass().getName() + ": " + e.getMessage()); 
+     } 
+     break; 
+  
+    case 8: // Deleting element by calling delete method 
+     try { 
+      DeleteData delete = new DeleteData(conn, stmt); 
+      delete.delete(); 
+     } catch (Exception e) { 
+      e.printStackTrace(); 
+      System.err.println(e.getClass().getName() + ": " + e.getMessage()); 
+     } 
+     break; 
+  
+    case 9: // Drop a table by calling drop method 
+     DropTable drop = new DropTable(); 
+     drop.drop(stmt); 
+     break; 
+  
+    case 10: // Exit from execution 
+     input.close(); 
+     System.out.println("Exited from application"); 
+     System.exit(0); 
+     break; 
+  
+    default: 
+     System.out.println("Enter the valid choice"); 
+     break; 
+   } 
+  } 
+ } 
+ 
+}

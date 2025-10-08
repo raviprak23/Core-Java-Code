@@ -1,0 +1,32 @@
+
+
+//1) Write a java program to demonstrate syntax, logical 2 runtime errors.
+
+//2) Write a java program that prints "Hello" during Arithmetic exception and "goodmorning" during an Illegal argument exception.
+
+
+package Problemstatement;
+
+import java.util.Scanner;
+
+public class problem_statement{
+    public static void main(String[] args) {
+        // Problem 1
+        // Syntax Error - int a = 7
+        int age = 78;
+        int year_born = 2000-78; // Logical error
+       // System.out.println(6/0);
+
+        // Problem 2
+        try{
+            int a = 666/0;
+        }
+        catch (IllegalArgumentException e){
+            System.out.println("Hello");
+        }
+        catch (ArithmeticException e){
+            System.out.println("Good morning");
+        }
+    }
+    
+}

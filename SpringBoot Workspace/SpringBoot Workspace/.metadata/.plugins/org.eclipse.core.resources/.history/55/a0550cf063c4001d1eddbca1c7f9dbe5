@@ -1,0 +1,12 @@
+package snippets;
+
+public class problem1 {
+	public static void main(String[] args) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("RAVIPRAKASH");
+		sb.deleteCharAt(5);
+		sb.delete(1, 1);
+		System.out.println(sb);
+	}
+
+}

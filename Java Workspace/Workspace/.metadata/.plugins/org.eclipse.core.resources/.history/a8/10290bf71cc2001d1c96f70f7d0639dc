@@ -1,0 +1,87 @@
+package Jdbc_project;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class InsertData {
+
+	Scanner scanner = new Scanner(System.in);
+	Connection conn = null;
+	Statement stmt = null;
+	String tableName;
+	Validate validate = new Validate();
+
+	public InsertData(Connection conn, Statement stmt) {
+		this.conn = conn;
+		this.stmt = stmt;
+	}
+
+	public void insert() { 
+  try { 
+   System.out.print("Enter table name to insert data: "); 
+   tableName = validate.getValidData(); 
+   String sql = "SELECT COLUMN_NAME, Data_Type FROM INFORMATION_SCHEMA.Columns WHERE TABLE_NAME='" + tableName 
+     + "'"; 
+   Statement stmt1 = conn.createStatement(); 
+   ResultSet rs = stmt1.executeQuery(sql); 
+   int colCount = 0; 
+   while (rs.next()) { 
+    colCount++; 
+   } 
+   
+   rs.close(); 
+   stmt1.close(); 
+   String[] colNames1 = new String[colCount]; 
+   String[] dataTypes1 = new String[colCount]; 
+   PreparedStatement pstmt; 
+   rs = stmt.executeQuery(sql); 
+   int index = 0; 
+   while (rs.next()) { 
+    colNames1[index] = rs.getString("column_name"); 
+    dataTypes1[index] = rs.getString("data_type"); 
+    index++; 
+   } 
+   rs.close(); 
+ 
+   String[] colNames = Arrays.copyOfRange(colNames1, 1, colNames1.length); // removes auto-generated id 
+   String[] dataTypes = Arrays.copyOfRange(dataTypes1, 1, dataTypes1.length); // removes auto-generated id 
+   colCount = colCount - 1; // to ignore auto-generated id 
+   String[] values = new String[colCount]; 
+ 
+   for (int i = 0; i < colCount; i++) { 
+    System.out.println("Enter " + colNames[i] + ": "); 
+    values[i] = scanner.nextLine(); 
+   } 
+ 
+   String insertSql = "INSERT INTO " + tableName + " VALUES (DEFAULT,"; 
+ 
+   for (int i = 0; i < colCount; i++) { 
+    insertSql += "?"; 
+ 
+    if (i < colCount - 1) { 
+     insertSql += ", "; 
+    } 
+   } 
+   insertSql += ")"; 
+ 
+   pstmt = conn.prepareStatement(insertSql); 
+   for (int i = 0; i < colCount; i++) { 
+    if (dataTypes[i].equals("integer")  || dataTypes[i].equals("float")) { 
+     pstmt.setInt(i + 1, Integer.parseInt(values[i])); 
+    } else { 
+     pstmt.setString(i + 1, values[i]); 
+    } 
+   } 
+   pstmt.executeUpdate(); 
+   pstmt.close(); 
+   System.out.println("Data inserted successfully."); 
+  } catch (SQLException e) { 
+   e.printStackTrace(); 
+  } 
+ }
+}

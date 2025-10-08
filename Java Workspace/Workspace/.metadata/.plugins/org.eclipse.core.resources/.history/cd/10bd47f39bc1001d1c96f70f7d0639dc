@@ -1,0 +1,128 @@
+package Jdbc_project;
+
+import java.sql.*;
+import java.util.Scanner;
+
+public class Cgchoice {
+	int choice = 0;
+	public Scanner input = new Scanner(System.in);
+	Statement stmt;
+
+	public Cgchoice(Statement stmt) {
+		this.stmt = stmt;
+	}
+
+	public void choice() {
+		System.out.println(stmt);
+		// Declaring objects for create, insert, delete, Update and retrieve classes
+		createTable create = new createTable(stmt);
+		insertStudent insert = new insertStudent(stmt);
+		deleteStudent delete = new deleteStudent(stmt);
+		UpdateStudent update = new UpdateStudent(stmt);
+		retrieve retrieve = new retrieve(stmt);
+		validation check = new validation();
+
+		while (true) {
+			System.out.println("\nEnter your choices : \n"
+							+ " 1. Create Table \n"
+							+ " 2. Insert the records into the table \n"
+							+ " 3. Delete the record from the table \n"
+							+ " 4. Update the record in the table \n"
+							+ " 5. Display the contents of the table \n"
+							+ " 6. Exit");
+			try {
+				choice = check.IntValid(input);
+	
+			switch (choice) {
+			case 1:
+				// Creating Table
+				try {
+					if (!create.create(input)) {
+						System.out.println("Could not create table");
+						break;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.err.println(e.getClass().getName() + ": " + e.getMessage());
+					System.out.println("Could not create table");
+				}
+				break;
+			case 2:
+				// Inserting elements by calling insert method
+				try {
+					if (!insert.insert(input)) {
+						System.out.println("Could not insert");
+						break;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.err.println(e.getClass().getName() + ": " + e.getMessage());
+					System.out.println("Could not insert");
+				}
+				break;
+			case 3:
+				// Deleting element by calling delete method
+				try {
+					if (!delete.delete(input)) {
+						System.out.println("Could not delete");
+						break;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.err.println(e.getClass().getName() + ": " + e.getMessage());
+					System.out.println("Could not delete");
+				}
+				break;
+			case 4:
+				// Updating element by calling update method
+				try {
+					if (!update.update(input)) {
+						System.out.println("Could not update");
+						break;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.err.println(e.getClass().getName() + ": " + e.getMessage());
+					System.out.println("Could not update");
+				}
+				break;
+			case 5:
+				// Retrieving all the elements by calling retrieve method
+				try {
+					if (!retrieve.retrieve()) {
+						System.out.println("Could not retrieve");
+						break;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.err.println(e.getClass().getName() + ": " + e.getMessage());
+					System.out.println("Could not retreive");
+				}
+				break;
+			case 6:
+				// Retrieving all the elements by calling retrieve method
+				try {
+					if (!Displaytable.Displaytable()) {
+						System.out.println("Could not display");
+						break;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.err.println(e.getClass().getName() + ": " + e.getMessage());
+					System.out.println("Could not display");
+				}
+				break;
+			case 7:
+				// Closing the scanner and exiting from the program
+				input.close();
+				System.exit(0);
+			default:
+				System.out.println("Enter the valid choice");
+				break;
+			}
+		} catch (Exception e) {
+			System.out.println("invalid input");
+		}	
+	}
+}
+}

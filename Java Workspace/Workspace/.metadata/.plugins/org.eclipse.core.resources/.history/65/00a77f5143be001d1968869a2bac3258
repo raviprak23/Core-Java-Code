@@ -1,0 +1,149 @@
+package Jdbc_connection;
+
+import java.sql.*;
+import java.util.*;
+
+public class crud1 {
+	static int id;
+	static String name;
+
+	public static void main(String[] args) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		@SuppressWarnings("unused")
+		Statement stm = null;
+
+		Scanner scanner = new Scanner(System.in); // taking input from user
+		try {
+			conn = DriverManager.getConnection("jdbc:postgresql://localhost/raviprakash5", "postgres", "Rp54321@098"); // connecting
+			// to
+			// database
+			stm = conn.createStatement(); // connection creation
+			Statement s1 = conn.createStatement();
+			String sql = "CREATE TABLE students (id integer not null, name varchar(50), email varchar(50), phone integer not null);"; // table
+			// creation
+			s1.executeUpdate(sql); // update to database
+
+			while (true) {
+				System.out.println("Enter operation (1=Insert, 2=Read, 3=Update, 4=Delete, 5=Drop):"); // operations
+				// to be
+				// performed
+				int op = scanner.nextInt(); // input from user for operations
+
+				switch (op) {
+
+				case 1:
+					///////////////////// Create table in database/////////////////////////
+
+					System.out.println("Enter id:");
+					while (!scanner.hasNextInt()) {
+						System.out.println("Enter the valid Id");
+						scanner.nextLine();
+					}
+					id = scanner.nextInt();
+					scanner.nextLine();
+					System.out.println("Enter name:");
+					while (!scanner.hasNext("[A-Z a-z]*")) {
+						System.out.println("Enter the valid Name");
+						name = scanner.nextLine();
+					}
+					name = scanner.nextLine();
+					System.out.println("Enter email:");
+					String email = scanner.next();
+					System.out.println("Enter phone:");
+					String phone = scanner.next();
+					@SuppressWarnings("unused")
+					String sq2 = "INSERT INTO students (id, name, email, phone) VALUES (?, ?, ?, ?)";
+					s1.executeUpdate("insert into students values('" + id + "', '" + name + "', '" + email + "', '"
+							+ phone + "')");
+					System.out.println("A new user was inserted successfully!");
+					break;
+
+				case 2:
+					////////////////////// Retrieve/Read created table/////////////////////////
+					sql = "SELECT * FROM students";
+					Statement stmt = conn.createStatement();
+					ResultSet rs = stmt.executeQuery(sql);
+					while (rs.next()) {
+						String userid = rs.getString("id");
+						String userName = rs.getString("name");
+						String userEmail = rs.getString("email");
+						String userPhone = rs.getString("phone");
+						System.out.println("Displaying table details:");
+						System.out.println("\t" + userid + "\t" + userName + "\t" + userEmail + "\t" + userPhone);
+					}
+					break;
+
+				case 3:
+					////////////////// Update particular row in table from
+					////////////////// database//////////////////////////////
+					System.out.println("Enter id:");
+					while (!scanner.hasNextInt()) {
+						System.out.println("Enter the valid Id");
+						scanner.nextLine();
+					}
+					int id1 = scanner.nextInt();
+					System.out.println("Enter new email:");
+					email = scanner.next();
+					sql = "UPDATE students SET email=? WHERE id=?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, email);
+					pstmt.setInt(2, id1);
+					int rowsUpdated = pstmt.executeUpdate();
+					if (rowsUpdated > 0) {
+						System.out.println("User with id =" + id1 + " was updated successfully!");
+					}
+					break;
+
+				case 4:
+					//////////////////// Delete particular row in table from
+					//////////////////// database/////////////////////////
+					System.out.println("Enter id:");
+					while (!scanner.hasNextInt()) {
+						System.out.println("Enter the valid Id");
+						scanner.nextLine();
+					}
+					id = scanner.nextInt();
+					sql = "DELETE FROM students WHERE id=?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, id);
+					int rowsDeleted = pstmt.executeUpdate();
+					if (rowsDeleted > 0) {
+						System.out.println("User with id =" + id + " was deleted successfully!");
+					}
+					break;
+
+				case 5:
+					///////////////// Drop table from database/////////////////////////////
+					Statement stat = conn.createStatement();
+					sql = "DROP table students";
+					stat.executeUpdate(sql);
+					System.out.println("Table dropped successfully!");
+					break;
+
+				default:
+					System.out.println("Invalid operation!"); // if entered wrong choice
+					break;
+				}
+			}
+		} catch (SQLException se) { // handle JDBC error
+			se.printStackTrace();
+		} catch (Exception e) { // handle error class
+			e.printStackTrace();
+		} finally { // to close resources
+			try {
+				if (pstmt != null)
+					pstmt.close();
+			} catch (SQLException se2) {
+				// nothing can be done
+			}
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+			scanner.close();
+		}
+	}
+}

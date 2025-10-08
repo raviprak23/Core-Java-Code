@@ -1,0 +1,68 @@
+package Jdbc_project;
+
+import java.sql.*;
+import java.util.Scanner;
+
+public class insert {
+
+	private int id;
+	private int rows;
+	private String name;
+	private String school;
+	private int salary;
+	private String table;
+	private String sql;
+	private Statement stmt;
+
+	public insert(Statement stmt) {
+		this.stmt = stmt;
+	}
+
+	// Insert method to insert elements into the table
+	public boolean insert(Scanner input) {
+		validation check = new validation();
+		System.out.println("Enter the table name you want to insert: ");
+		table = input.nextLine();
+		System.out.println("Enter the number of rows: ");
+		check.IntValid(input);
+		rows = input.nextInt();
+		name = input.nextLine();
+
+		try {
+			for (int i = 0; i < rows; i++) {
+				// Taking id from user and doing validation
+				System.out.println("Enter the id of Student: ");
+				check.IntValid(input);
+				id = input.nextInt();
+				input.nextLine();
+
+				// Taking name from user and doing validation
+				System.out.println("Enter the name of Student: ");
+				check.StringValid(input);
+				name = input.nextLine();
+
+				// Taking color from user and doing validation
+				System.out.println("Enter the school of Student: ");
+				check.StringValid(input);
+				school = input.nextLine();
+
+				// Taking price from user and doing validation
+				System.out.println("Enter the salary of Student: ");
+				check.IntValid(input);
+				salary = input.nextInt();
+				input.nextLine();
+
+				// Updating element in the table
+				sql = "insert into " + table + " values(" + id + ", '" + name + "', '" + school + "', '" + salary
+						+ "');";
+				stmt.executeUpdate(sql);
+				System.out.println("Inserted Successfully");
+			}
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			return false;
+		}
+	}
+}

@@ -1,0 +1,38 @@
+package xml; 
+ 
+import java.io.File; 
+import javax.xml.parsers.DocumentBuilder; 
+import javax.xml.parsers.DocumentBuilderFactory; 
+import org.w3c.dom.Document; 
+import org.w3c.dom.Element; 
+import org.w3c.dom.Node; 
+import org.w3c.dom.NodeList; 
+ 
+public class ReadXMLFile{ 
+    public static void main(String[] args) { 
+        try { 
+            File file = new File("C:\\Users\\rprakas7\\OneDrive - Capgemini\\Workspace\\XML\\src\\xml\\XMLFile.xml"); 
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance(); 
+            DocumentBuilder db = dbf.newDocumentBuilder(); 
+            Document doc = db.parse(file); 
+            doc.getDocumentElement().normalize(); 
+            NodeList nodeList = doc.getElementsByTagName("student"); 
+            
+            for (int i = 0; i < nodeList.getLength(); i++) { 
+                Node node = nodeList.item(i);
+                
+                if (node.getNodeType() == Node.ELEMENT_NODE) { 
+                    Element eElement = (Element) node; 
+                    System.out.println("Student id: "+ eElement.getElementsByTagName("id").item(0).getTextContent());  
+                    System.out.println("First Name: "+ eElement.getElementsByTagName("firstname").item(0).getTextContent());  
+                    System.out.println("Last Name: "+ eElement.getElementsByTagName("lastname").item(0).getTextContent());  
+                    System.out.println("Subject: "+ eElement.getElementsByTagName("subject").item(0).getTextContent());  
+                    System.out.println("Marks: "+ eElement.getElementsByTagName("marks").item(0).getTextContent());
+                }
+            } 
+        } catch (Exception e) { 
+            System.out.println("Cant Run"); 
+            System.out.println(e); 
+        } 
+    } 
+}

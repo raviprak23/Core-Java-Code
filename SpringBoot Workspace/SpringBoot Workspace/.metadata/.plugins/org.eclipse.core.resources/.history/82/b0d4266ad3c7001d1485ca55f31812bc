@@ -1,0 +1,5 @@
+package com.springdata.app.controller;
+
+public class UserController {
+
+}

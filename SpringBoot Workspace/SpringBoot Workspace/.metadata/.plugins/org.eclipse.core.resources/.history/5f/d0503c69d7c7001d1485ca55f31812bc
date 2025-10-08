@@ -1,0 +1,26 @@
+package com.springdata.app;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.springdata.app.repository.UserRepository;
+
+@SpringBootApplication
+public class SpringDataApplication {
+
+ @Autowired
+ private UserRepository userRepository;
+
+ public static void main(String[] args) {
+	 SpringApplication.run(SpringDataApplication.class, args);
+ }
+
+ @PostConstruct
+ public void testDatabaseConnection() {
+  List<User> users = userRepository.findAll();
+  System.out.println("Retrieved " + users.size() + " users from the database.");
+ }
+}

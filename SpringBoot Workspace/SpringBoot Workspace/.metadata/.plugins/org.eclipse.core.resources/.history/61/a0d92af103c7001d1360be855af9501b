@@ -1,0 +1,14 @@
+package com.example.prakash1;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+
+public class Prakash1Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Prakash1Application.class, args);
+	}
+
+}

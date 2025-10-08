@@ -1,0 +1,43 @@
+package Jdbc_project;
+
+import java.sql.*;
+import java.util.Scanner;
+
+public class UpdateStudent {
+
+	private int id;
+	private int salary;
+	private String sql;
+	private Statement stmt;
+
+	public Update(Statement stmt) {
+		this.stmt = stmt;
+	}
+
+	// Method to update element from table
+	public boolean update(Scanner input) {
+		validation check = new validation();
+		// Taking id to be update from user and validating
+		System.out.println("\nEnter the Id to update: ");
+		check.IntValid(input);
+		id = input.nextInt();
+		input.nextLine();
+
+		// Taking the new price from the user and validating
+		System.out.println("\nEnter the salary to update: ");
+		check.IntValid(input);
+		salary = input.nextInt();
+		input.nextLine();
+
+		try {
+			sql = "update student set salary = " + salary + " where id = " + id + ";";
+			stmt.executeUpdate(sql);
+			System.out.println("Updated Successfully");
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			return false;
+		}
+	}
+}

@@ -1,0 +1,65 @@
+package Jdbc_project;
+
+import java.sql.Connection;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class CreateTable {
+	Scanner scanner = new Scanner(System.in);
+	String tableName;
+	Connection conn = null;
+	Statement stmt = null;
+	Validate validate = new Validate();
+
+	public CreateTable(Connection conn, Statement stmt) {
+		this.conn = conn;
+		this.stmt = stmt;
+	}
+
+	public void create() {
+		try {
+			System.out.print("Enter table name: ");// taking user for table name
+			tableName = validate.getValidData();
+
+			System.out.print("Enter number of columns: ");// taking user of columns name
+			int numCols = validate.getValidIntData();
+
+			String createTableSql = "CREATE TABLE " + tableName + "(id integer GENERATED ALWAYS AS IDENTITY, ";
+
+			for (int i = 0; i < numCols; i++) {
+				System.out.print("Enter " + (i + 1) + " column name: ");
+				String colName = validate.getValidData();
+
+				System.out.print("Enter data type: ");
+				System.out.println("\nSelect the data type: 1. int 2. varchar");
+				int choice = validate.getValidIntData();
+
+				String dataType = "";
+				if (choice == 1) {
+					dataType = "int";
+				} else if (choice == 2) {
+					System.out.println("Enter the size: ");
+					int size = validate.getValidIntData();
+					dataType = "varchar(" + size + ")";
+				}
+
+				System.out.print("Enter constraints (press enter if none): ");
+				String constraint = validate.getValidData();
+
+				createTableSql += colName + " " + dataType + " " + constraint;
+
+				if (i < numCols - 1) {
+					createTableSql += ", ";
+				}
+			}
+
+			createTableSql += ");";
+			stmt.executeUpdate(createTableSql);
+
+			System.out.println("Created " + tableName + " successfully");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+		}
+	}
+}

@@ -1,0 +1,5 @@
+package com.springdata.app.repository;
+
+public class UserRepository {
+
+}

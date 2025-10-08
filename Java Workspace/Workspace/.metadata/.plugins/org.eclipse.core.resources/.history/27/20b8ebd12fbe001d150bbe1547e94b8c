@@ -1,0 +1,32 @@
+package Jdbc_project;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.*;
+
+class Databaseconnection {
+	static Scanner scan = new Scanner(System.in);
+
+	public static void main(String args[]) throws SQLException {
+		Connection table = null;
+		try {
+			table = DriverManager.getConnection("jdbc:postgresql://localhost/", "postgres", "Rp54321@098");//connected to postgresql
+			Statement s = table.createStatement();
+			String db = "CREATE DATABASE Examination";// creating a database
+			s.execute(db);
+			System.out.println("Database Created Successfully");
+		} catch (Exception e) {
+			System.out.println("Database Already exists");// if database is present they show  already exit
+			System.out.println("Create New Database");
+			String name = scan.nextLine();
+			table = DriverManager.getConnection("jdbc:postgresql://localhost/", "postgres", "Rp54321@098");
+			Statement s = table.createStatement();
+			String db = ("CREATE DATABASE " + name + "");
+			s.execute(db);
+			System.out.println("New Database Created Succesfully");
+
+		}
+	}
+}

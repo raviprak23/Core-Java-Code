@@ -1,0 +1,47 @@
+package Jdbc_project;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.*;
+
+public class insert { // class name insert
+	Scanner scanner = new Scanner(System.in);// taking from the user
+
+	public void insert(Statement stmt, ArrayList<TableDetail> colList, String tableName, Connection conn) {
+
+		ArrayList<String> values = new ArrayList<>();
+
+		for (int i = 0; i < colList.size(); i++) {
+			System.out.println("Enter " + colList.get(i).getColumnName() + " ");
+			String columnName = scanner.nextLine(); // only  dynamic change Datatype 
+			values.add(columnName);
+
+		}
+		String insertSql = "INSERT INTO " + tableName + " VALUES (";
+
+		for (int i = 0; i < values.size(); i++) {
+			insertSql += "?";
+
+			if (i < values.size() - 1) {
+				insertSql += ", ";
+			}
+		}
+		insertSql += ")";
+		PreparedStatement pstmt;
+		try {
+			pstmt = conn.prepareStatement(insertSql);
+
+			for (int i = 0; i < values.size(); i++) {
+				pstmt.setString(i + 1, values.get(i));
+			}
+			pstmt.executeUpdate();
+			pstmt.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

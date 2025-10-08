@@ -1,0 +1,111 @@
+package Jdbc_project;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class UpdateData {
+	Scanner scanner = new Scanner(System.in);
+
+	Connection conn = null;
+	Statement stmt = null;
+	String tableName;
+	Validate validate = new Validate();
+
+	public UpdateData(Connection conn, Statement stmt) {
+		this.conn = conn;
+		this.stmt = stmt;
+	}
+
+	public void update() {
+
+		try {
+			System.out.print("Enter table name to update data: ");
+			tableName = validate.getValidData();
+			String sql = "select COLUMN_NAME, Data_Type from INFORMATION_SCHEMA.Columns where TABLE_NAME='" + tableName
+					+ "'";
+			Statement stmt1 = conn.createStatement();
+			ResultSet rs = stmt1.executeQuery(sql);
+			int count = 0;
+			while (rs.next()) {
+				count++;
+			}
+			rs.close();
+
+			String[] colNames1 = new String[count];
+			String[] dataTypes1 = new String[count];
+			String[] values = new String[count - 1]; // to ignore auto generated id
+			int index = 0;
+
+			rs = stmt1.executeQuery(sql);
+			while (rs.next()) {
+				colNames1[index] = rs.getString("column_name");
+				dataTypes1[index] = rs.getString("data_type");
+				index++;
+			}
+
+			String[] colNames = Arrays.copyOfRange(colNames1, 1, colNames1.length); // removes auto-generated id
+			String[] dataTypes = Arrays.copyOfRange(dataTypes1, 1, dataTypes1.length); // removes auto-generated id
+			count = count - 1; // to ignore auto-generated id
+
+			for (int j = 0; j < count; j++) {
+				System.out.println("Enter new value for " + colNames[j] + ": ");
+				String columnName = scanner.nextLine();
+				values[j] = columnName;
+			}
+			System.out.println("Enter where condition column name: ");
+			String where = scanner.nextLine();
+
+			System.out.println("Enter where condition value:");
+			String value = scanner.nextLine();
+
+			String updateSql = "UPDATE " + tableName + " SET ";
+
+			for (int i = 0; i < colNames.length; i++) {
+				updateSql += colNames[i] + " = ?";
+				if (i < colNames.length - 1) {
+					updateSql += ", ";
+				}
+			}
+
+			updateSql += " WHERE " + where + "=?";
+
+			PreparedStatement pstmt;
+			pstmt = conn.prepareStatement(updateSql);
+
+			for (int i = 0; i < values.length; i++) {
+				if (dataTypes[i].equals("integer")) {
+					pstmt.setInt(i + 1, Integer.parseInt(values[i]));
+				} else {
+					pstmt.setString(i + 1, values[i]);
+				}
+			}
+
+			if (where.equalsIgnoreCase("id")) {
+				pstmt.setInt(values.length + 1, Integer.parseInt(value));
+			} else {
+				int whereIndex = Arrays.asList(colNames).indexOf(where);
+				if (whereIndex > -1) {
+					if (dataTypes[whereIndex].equals("integer")) {
+						pstmt.setInt(values.length + 1, Integer.parseInt(value));
+					} else {
+						pstmt.setString(values.length + 1, value);
+					}
+				}
+			}
+
+			pstmt.executeUpdate();
+			pstmt.close();
+			rs.close();
+			stmt1.close();
+			System.out.println("Updated Successfully!");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+}

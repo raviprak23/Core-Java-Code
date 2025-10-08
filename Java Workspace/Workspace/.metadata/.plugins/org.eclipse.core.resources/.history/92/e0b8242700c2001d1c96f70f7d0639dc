@@ -1,0 +1,36 @@
+
+package Jdbc_project;
+
+import java.sql.*;
+import java.util.Scanner;
+
+public class deleteStudent {
+
+	private int id;
+	private String sql;
+	private Statement stmt;
+
+	public deleteStudent(Statement stmt) {
+		this.stmt = stmt;
+	}
+
+	// Method to delete element from table
+	public boolean delete(Scanner input) {
+		validation check = new validation();
+		// Taking id to be deleted from user
+		System.out.println("\nEnter the Id to delete: ");
+		check.IntValid(input);
+		id = input.nextInt();
+
+		try {
+			sql = "delete from student where id = " + id + ";";
+			stmt.executeUpdate(sql);
+			System.out.println("Deleted Successfully");
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			return false;
+		}
+	}
+}

@@ -1,0 +1,74 @@
+package Jdbc_project;
+
+import java.sql.*;
+import java.util.Scanner;
+
+public class createTable {
+	private String table;
+	private int column;
+	private int choice;
+	private int size;
+	private String dataType;
+	private String name;
+	Statement stmt;
+
+	public createTable(Statement stmt) {
+		this.stmt = stmt;
+	}
+
+	public boolean create(Scanner input) {
+		validation check = new validation();
+
+		System.out.println("Enter the table name: ");
+		check.StringValid(input);
+		table = input.nextLine();
+		System.out.println("Enter the number of columns: ");
+		check.IntValid(input);
+		column = input.nextInt();
+		input.nextLine();
+
+		String sql = "create table " + table + "(";
+
+		for (int i = 0; i < column; i++) {
+			System.out.println("\nSelect the data type:\n 1. int\n 2. varchar\n 3. float\n 4. boolean");
+			check.IntValid(input);
+			choice = input.nextInt();
+			input.nextLine();
+
+			if (choice == 1) {
+				dataType = "int";
+			} else if (choice == 2) {
+				System.out.println("Enter the size: ");
+				check.IntValid(input);
+				size = input.nextInt();
+				input.nextLine();
+				dataType = "varchar(" + size + ")";
+			} else if (choice == 3) {
+				dataType = "float";
+			} else if (choice == 4) {
+				dataType = "boolean";
+			} else {
+				System.out.println("Enter the valid choice");
+				i--;
+				continue;
+			}
+			System.out.println("Enter the column name: ");
+			check.StringValid(input);
+			name = input.nextLine();
+			sql += name + " " + dataType + " ";
+			if (i < column - 1) {
+				sql += ", ";
+			}
+		}
+		sql += ");";
+		try {
+			stmt.executeUpdate(sql);
+			System.out.println("Created Table " + table + "!!");
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			return false;
+		}
+	}
+}

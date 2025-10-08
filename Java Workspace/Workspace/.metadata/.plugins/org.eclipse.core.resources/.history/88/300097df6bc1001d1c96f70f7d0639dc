@@ -1,0 +1,56 @@
+package Jdbc_project;
+
+import java.sql.*;
+
+public class Displaytable {
+	Statement stmt;
+	Connection conn;
+
+	// Constructor for DisplayTables class
+	public Displaytable(Statement stmt, Connection conn) {
+		this.stmt = stmt;
+		this.conn = conn;
+	}
+
+//	public boolean display() {
+//		try {
+//			// Get the database metadata
+//			DatabaseMetaData metadata = conn.getMetaData();
+//			String[] tableTypes = { "TABLE" };
+//			ResultSet resultSet = metadata.getTables(null, null, "%", tableTypes);
+//			// Print the table names
+//			System.out.println("Table names in Students Database: ");
+//
+//			while (resultSet.next()) {
+//				String tableName = resultSet.getString("TABLE_NAME");
+//				System.out.println("  " + tableName);
+//			}
+//			return true;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+//			return false;
+//		}
+
+
+	public static boolean Displaytable() {
+		try {
+			// Get the database metadata
+			DatabaseMetaData metadata = conn.getMetaData();
+			String[] tableTypes = { "TABLE" };
+			ResultSet resultSet = metadata.getTables(null, null, "%", tableTypes);
+			// Print the table names
+			System.out.println("Table names in Students Database: ");
+
+			while (resultSet.next()) {
+				String tableName = resultSet.getString("TABLE_NAME");
+				System.out.println("  " + tableName);
+			}
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			return false;
+		}		return false;
+	}
+}

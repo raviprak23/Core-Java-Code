@@ -1,0 +1,31 @@
+package Jdbc_project;
+
+import java.sql.*;
+
+public class retrieve {
+	private Statement stmt;
+
+	public retrieve(Statement stmt) {
+		this.stmt = stmt;
+	}
+
+	public boolean retrieve() {
+		try {
+			ResultSet res = stmt.executeQuery("Select * from student");
+			System.out.println("Id  Name     school    salary");
+
+			while (res.next()) {
+				int id = res.getInt("id");
+				String name = res.getString("name");
+				String school = res.getString("school");
+				int salary = res.getInt("salary");
+				System.out.println(id + "   " + name + "     " + school + "     " + salary);
+			}
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			return false;
+		}
+	}
+}

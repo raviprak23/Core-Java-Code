@@ -1,0 +1,28 @@
+
+package Jdbc_project; 
+ 
+import java.util.Scanner; 
+ 
+public class Validate { 
+ Scanner scanner = new Scanner(System.in); 
+ 
+ //validating for characters with space 
+ public String getValidData() { 
+  String value = scanner.nextLine(); 
+  while (!value.matches("[a-zA-Z]*")) { 
+   System.out.println("Enter the valid data"); 
+   value = scanner.nextLine(); 
+  } 
+  return value; 
+ } 
+ 
+ //validating for integers with space 
+ public int getValidIntData() {  
+  String value = scanner.nextLine(); 
+  while (!value.matches("[0-9]*")) { 
+   System.out.println("Enter the valid data"); 
+   value = scanner.nextLine(); 
+  } 
+  return Integer.parseInt(value); 
+ } 
+}

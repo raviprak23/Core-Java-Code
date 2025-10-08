@@ -1,0 +1,78 @@
+package Jdbc_project;
+ 
+
+import java.sql.*; 
+import java.util.ArrayList; 
+import java.util.Scanner; 
+ 
+//import database.delete.deletedata; 
+//import database.update.updatedata; 
+ 
+public class Cgchoice { 
+ int choice = 0; 
+ Scanner input = new Scanner(System.in); 
+ 
+ // Declaring objects for insert, read, update and delete classes 
+ insertdata insert = new insertdata(); 
+ retrieve retriev = new retrieve(); 
+ updatedata update = new updatedata(); 
+ deletedata delete = new deletedata(); 
+ 
+ public void choice(Statement stmt, ArrayList<TableDetail> colList, String tableName, Connection conn) { 
+  while (true) { 
+   System.out.println("Enter operation (1=Insert, 2=Read, 3=Update, 4=Delete):"); 
+   while (!input.hasNextInt()) { 
+    System.out.println("Enter the valid choice"); 
+    input.nextLine(); 
+   } 
+   choice = input.nextInt(); 
+   input.nextLine(); 
+ 
+   switch (choice) { 
+ 
+   case 1: // Inserting elements by calling insert method 
+    try { 
+     insert.insert(stmt, colList, tableName, conn); 
+ 
+    } catch (Exception e) { 
+     e.printStackTrace(); 
+     System.err.println(e.getClass().getName() + ": " + e.getMessage()); 
+    } 
+    break; 
+   case 2: // Retrieving all the elements by calling retrieve method 
+    try { 
+     retriev.retrieveDetails(conn, tableName, colList); 
+ 
+    } catch (Exception e) { 
+     e.printStackTrace(); 
+     System.err.println(e.getClass().getName() + ": " + e.getMessage()); 
+    } 
+    break; 
+ 
+   case 3: // Updating element by calling update method 
+    try { 
+     update.update(stmt, colList, tableName, conn); 
+ 
+    } catch (Exception e) { 
+     e.printStackTrace(); 
+     System.err.println(e.getClass().getName() + ": " + e.getMessage()); 
+    } 
+    break; 
+ 
+   case 4: // Deleting element by calling delete method 
+    try { 
+     delete.delete(tableName, conn); 
+    } catch (Exception e) { 
+     e.printStackTrace(); 
+     System.err.println(e.getClass().getName() + ": " + e.getMessage()); 
+    } 
+    break; 
+ 
+   default: 
+    System.out.println("Enter the valid choice"); 
+    break; 
+   } 
+  } 
+ } 
+}
+

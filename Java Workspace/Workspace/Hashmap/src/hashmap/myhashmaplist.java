@@ -1,0 +1,42 @@
+package hashmap;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Scanner;
+
+public class myhashmaplist {
+
+	public static void main(String[] args) {
+
+		Scanner scanner = new Scanner(System.in);// taking from user 
+
+		HashMap<String, LinkedList<String>> dictionary = new HashMap<>();
+
+		while (true) {
+			System.out.print("Enter a word (or type 'quit' to exit): ");
+			String word = scanner.nextLine();
+
+			if (word.equals("quit")) {
+				break;
+			}
+
+			System.out.print("Enter the definition: ");
+			String definition = scanner.nextLine();
+
+			LinkedList<String> definitionsList = dictionary.getOrDefault(word, new LinkedList<>());
+			definitionsList.add(definition);
+			dictionary.put(word, definitionsList);
+		}
+
+		System.out.println("Dictionary contents:");
+
+		for (String word : dictionary.keySet()) {
+			System.out.println(word + ":");
+			LinkedList<String> definitionsList = dictionary.get(word);
+
+			for (String definition : definitionsList) {
+				System.out.println("- " + definition);
+			}
+		}
+	}
+}

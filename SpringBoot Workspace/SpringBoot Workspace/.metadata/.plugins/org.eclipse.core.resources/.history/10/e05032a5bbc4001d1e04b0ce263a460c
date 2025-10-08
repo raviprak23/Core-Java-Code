@@ -1,0 +1,18 @@
+package com.example.ravi;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+public class Api {
+
+	
+	@RestController
+	public class getApi {
+
+		@GetMapping("/get")
+		public String getApi() {
+			return "Welcome to API";
+		}
+		
+	}
+
+}

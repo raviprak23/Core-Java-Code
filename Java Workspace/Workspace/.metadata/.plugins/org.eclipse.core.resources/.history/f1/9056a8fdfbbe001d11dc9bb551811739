@@ -1,0 +1,22 @@
+package Jdbc_project;
+
+import java.util.Scanner;
+
+public class validation {
+
+	public void IntValid(Scanner input) {
+
+		while (!input.hasNextInt()) {
+			System.out.println("Enter the valid input!!");
+			input.nextLine();
+		}
+	}
+
+ public void StringValid(Scanner input) {
+  
+  while (!input.hasNext("[A-Za-z]*")) {
+   System.out.println("Enter the valid input!!!");
+   input.nextLine();
+  }
+ }
+}
